@@ -11,4 +11,10 @@ public class OffreServise
         Offer offer=new Offer(description,profile,new ContratType(contratType));
         return DAOoffer.getInstance().Create(offer);
     }
+    public boolean Forward_Delete(int id)
+    {
+        Offer offer=new Offer();
+        offer.setId(id);
+        return DAOoffer.getInstance().delete(offer);
+    }
 }

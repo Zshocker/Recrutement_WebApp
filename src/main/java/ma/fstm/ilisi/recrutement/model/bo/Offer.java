@@ -14,6 +14,15 @@ public class Offer
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "type")
     private ContratType type;
+
+    public ContratType getType() {
+        return type;
+    }
+
+    public void setType(ContratType type) {
+        this.type = type;
+    }
+
     public int getId() {
         return id;
     }

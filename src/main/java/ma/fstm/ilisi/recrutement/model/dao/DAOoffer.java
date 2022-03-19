@@ -1,6 +1,10 @@
 package ma.fstm.ilisi.recrutement.model.dao;
 
 import ma.fstm.ilisi.recrutement.model.bo.Offer;
+import ma.fstm.ilisi.recrutement.model.dao.hib.FabricSession;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,30 +19,86 @@ public class DAOoffer implements IDAO<Offer>
         if(daooffre==null)daooffre=new DAOoffer();
         return daooffre;
     }
-    public boolean Create(Offer livre){
-        return true;
+    public boolean Create(Offer ofr){
+        Session session= FabricSession.getSessionFactory().getCurrentSession();
+        Transaction tx=session.beginTransaction();
+        try
+        {
+            session.save(ofr);
+            tx.commit();
+            return true;
+        }catch (HibernateException e){
+            tx.rollback();
+            System.out.println(e);
+            return false;
+        }
     }
 
     @Override
     public Collection<Offer> Retrieve() {
-        return null;
+        Session session= FabricSession.getSessionFactory().getCurrentSession();
+        Transaction tx=session.beginTransaction();
+        try
+        {
+            List offers= session.createQuery("from Offer ").list();
+            tx.commit();
+            return offers;
+        }catch (HibernateException e){
+            tx.rollback();
+            System.out.println(e);
+            return null;
+        }
     }
 
     @Override
-    public void update(Offer user) {
-
+    public void update(Offer ofr) {
+        Session session= FabricSession.getSessionFactory().getCurrentSession();
+        Transaction tx=session.beginTransaction();
+        try
+        {
+            Offer offer=findByid(ofr.getId());
+            offer.setDescription(ofr.getDescription());
+            offer.setProfile(ofr.getProfile());
+            offer.setType(ofr.getType());
+            tx.commit();
+        }catch (HibernateException e)
+        {
+            tx.rollback();
+            System.out.println(e);
+        }
     }
 
     @Override
-    public boolean delete(Offer user) {
-        return false;
-    }
-
-    public List<Offer> getLivres(){
-        return null;
+    public boolean delete(Offer ofr)
+    {
+        Session session= FabricSession.getSessionFactory().getCurrentSession();
+        Transaction tx=session.beginTransaction();
+        try
+        {
+            Offer offer=findByid(ofr.getId());
+            session.delete(offer);
+            tx.commit();
+            return true;
+        }catch (HibernateException e)
+        {
+            tx.rollback();
+            System.out.println(e);
+            return false;
+        }
     }
     public Offer findByid(int id)
     {
-        return null;
+        Session session= FabricSession.getSessionFactory().getCurrentSession();
+        Transaction tx=session.beginTransaction();
+        try
+        {
+            Offer offer= session.get(Offer.class,id);
+            tx.commit();
+            return offer;
+        }catch (HibernateException e){
+            tx.rollback();
+            System.out.println(e);
+            return null;
+        }
     }
 }
