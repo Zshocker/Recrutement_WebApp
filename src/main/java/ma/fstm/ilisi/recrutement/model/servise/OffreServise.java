@@ -9,7 +9,6 @@ public class OffreServise
     public boolean Forward_Create(String profile,String description,String contratType){
         if(profile.equals("")||description.equals("")||contratType.equals(""))return false;
         Offer offer=new Offer(description,profile,new ContratType(contratType));
-        DAOoffer.getInstance().Create(offer);
-        return true;
+        return DAOoffer.getInstance().Create(offer);
     }
 }

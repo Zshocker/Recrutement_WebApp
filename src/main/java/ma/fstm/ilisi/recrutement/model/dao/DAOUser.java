@@ -24,16 +24,18 @@ public class DAOUser implements IDAO<User>{
 
     }
     @Override
-    public void Create(User user)
+    public boolean Create(User user)
     {
         Session session= FabricSession.getSessionFactory().getCurrentSession();
         Transaction tx=session.beginTransaction();
         try {
            session.save(user);
            tx.commit();
+           return true;
         }catch (HibernateException e){
             tx.rollback();
             System.err.println(e);
+            return false;
         }
     }
 

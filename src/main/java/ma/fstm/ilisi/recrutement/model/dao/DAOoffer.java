@@ -15,8 +15,8 @@ public class DAOoffer implements IDAO<Offer>
         if(daooffre==null)daooffre=new DAOoffer();
         return daooffre;
     }
-    public void Create(Offer livre){
-
+    public boolean Create(Offer livre){
+        return true;
     }
 
     @Override
