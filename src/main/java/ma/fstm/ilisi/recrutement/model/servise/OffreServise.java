@@ -17,4 +17,5 @@ public class OffreServise
         offer.setId(id);
         return DAOoffer.getInstance().delete(offer);
     }
+
 }
