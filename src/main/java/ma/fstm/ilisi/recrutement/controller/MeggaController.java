@@ -25,7 +25,7 @@ public class MeggaController extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String suf=request.getRequestURI();
-        if(suf.equals(AppContext))
+        if(suf.equals(AppContext+"/"))
         {
             response.sendRedirect(AppContext+LoginT);
             return;
@@ -44,9 +44,16 @@ public class MeggaController extends HttpServlet
             GetOffersAdmin(request,response);
             return;
         }
+        if(suf.equals(AppContext+CreateP)){
+            GetCreateP(request, response);
+            return;
+        }
         if(suf.matches(AppContext+DeleteP+"/[0-9]+[.]do")){
             doDeleteOffre(request,response);
             return;
+        }
+        if(suf.matches(AppContext+UpdateP+"/[0-9]+[.]do")){
+            getUpdate(request,response);
         }
         response.setStatus(404);
         response.getWriter().println("<h1>404: NOT FOUND</h1>");
@@ -68,7 +75,7 @@ public class MeggaController extends HttpServlet
         }
         if(suf.equals(AppContext+CreateP))
         {
-
+            DoCreateOffre(request,response);
         }
         super.doPost(request,response);
     }
@@ -78,7 +85,7 @@ public class MeggaController extends HttpServlet
     {
         User user= new LoginProc().VerifieAuthed(request,response);
         if (user != null) {
-            request.getRequestDispatcher( "/Resources/JSP/AllOffersAdminPage.jsp").forward(request,response);
+            getServletContext().getRequestDispatcher( "/Resources/JSP/AllOffersAdminPage.jsp").forward(request,response);
         }
     }
 
@@ -93,16 +100,28 @@ public class MeggaController extends HttpServlet
     }
     private void GetLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        request.getRequestDispatcher("Resources/JSP/LoginPage.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/Resources/JSP/LoginPage.jsp").forward(request, response);
     }
     private void DoLogout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         new LoginProc().Logout(request);
         response.sendRedirect(AppContext+LoginT);
     }
+    private void GetCreateP(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        getServletContext().getRequestDispatcher( "/Resources/JSP/creation.jsp").forward(request, response);
+    }
+
+
     private void DoCreateOffre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-         String description = request.getParameter("login");
+         String description = request.getParameter("description");
+         String profile = request.getParameter("profile");
+         String type = request.getParameter("type");
+         if(new OffreServise().Forward_Create(profile,description,type)){
+             response.sendRedirect(AppContext+Offers);
+         }else System.out.println("<h2>Wrong<h2>");
+
     }
     private void doDeleteOffre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
@@ -116,6 +135,14 @@ public class MeggaController extends HttpServlet
             id=Integer.parseInt(matcher.group());
         }
         return id;
+    }
+    private void getUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        if (new LoginProc().verifieAuth(request)) {
+            request.setAttribute( "id", get_ID_fromRequestURI(request.getRequestURI()));
+            getServletContext().getRequestDispatcher("/Resources/JSP/updatePAge.jsp").forward(request,response);
+            return;
+        }
+        response.sendRedirect(AppContext+LoginT);
     }
 }
 

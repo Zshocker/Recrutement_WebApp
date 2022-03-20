@@ -34,4 +34,9 @@ public class ContratType
     public ContratType(){
 
     }
+
+    @Override
+    public String toString() {
+        return type;
+    }
 }

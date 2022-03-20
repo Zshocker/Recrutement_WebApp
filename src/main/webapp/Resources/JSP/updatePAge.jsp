@@ -1,8 +1,15 @@
 <%@ page import="java.util.List" %>
 <%@ page import="ma.fstm.ilisi.recrutement.model.dao.DAOoffer" %>
 <%@ page import="ma.fstm.ilisi.recrutement.controller.MeggaController" %>
+<%@ page import="ma.fstm.ilisi.recrutement.model.bo.Offer" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    DAOoffer daOoffer=DAOoffer.getInstance();
+    int id = (int) request.getAttribute("id");
+    Offer of=daOoffer.findByid(id);
+    request.setAttribute("offer",of);
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,19 +29,17 @@
 
                     <div class="form-group">
                         <label class="control-label" >Description:</label>
-                        <input type="text" class="form-control" name="description" value="John" />
+                        <input type="text" class="form-control"  name="description" value="${requestScope.offer.description}" />
 
                     </div>
                     <div class="form-group">
                         <label class="control-label" >Profile:</label>
-                        <input type="text" class="form-control" name="profile" value="Profile" />
-
+                        <input type="text" class="form-control" name="profile" value="${requestScope.offer.profile}" />
                     </div>
-
                     <div class="form-group">
-                        <input type="radio" id="cdd" name="type" value="cdd">
+                        <input type="radio" id="cdd" name="type" value="cdd" <% if(of.getType().toString().equals("cdd")){ %> checked <%}%> >
                         <label for="cdd">CDD</label><br>
-                        <input type="radio" id="cdi" name="type" value="cdi">
+                        <input type="radio" id="cdi" name="type" value="cdi"  <% if(of.getType().toString().equals("cdi")){ %> checked <%}%> >
                         <label for="cdi">CDI</label><br>
                     </div>
                     <div class="form-group">
@@ -44,7 +49,7 @@
             </div>
         </div>
 
-            </main>
+    </main>
 </div>
 <jsp:include page="footer.jsp"/>
 </body>

@@ -17,11 +17,11 @@
                         <a class="nav-link text-dark" >Privacy</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="<%=MeggaController.CreateP%>" >Add</a>
+                        <a class="nav-link text-dark" href="<%=MeggaController.AppContext+MeggaController.CreateP%>" >Add</a>
                     </li>
                     <% if(new LoginProc().verifieAuth(request)){ %>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="<%=MeggaController.LogoutT%>" >Logout</a>
+                        <a class="nav-link text-dark" href="<%=MeggaController.AppContext+MeggaController.LogoutT%>" >Logout</a>
                     </li>
                     <% } %>
                 </ul>

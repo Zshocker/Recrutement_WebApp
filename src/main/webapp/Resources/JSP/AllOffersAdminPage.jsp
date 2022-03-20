@@ -35,9 +35,9 @@
                             <td>${offer.id}</td>
                             <td>${offer.profile}</td>
                             <td>${offer.description}</td>
-                            <td>${offer.type}</td>
-                            <td><a href="<%=MeggaController.DeleteP%>/${offer.id}">delete</a></td>
-                            <td><a href="<%=MeggaController.UpdateP%>/${offer.id}">delete</a></td>
+                            <td>${offer.type.type}</td>
+                            <td><a href="<%=MeggaController.AppContext+MeggaController.DeleteP%>/${offer.id}.do">delete</a></td>
+                            <td><a href="<%=MeggaController.AppContext+MeggaController.UpdateP%>/${offer.id}.do">Update</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
