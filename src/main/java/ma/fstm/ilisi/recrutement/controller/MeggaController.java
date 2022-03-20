@@ -76,6 +76,11 @@ public class MeggaController extends HttpServlet
         if(suf.equals(AppContext+CreateP))
         {
             DoCreateOffre(request,response);
+            return;
+        }
+        if(suf.matches(AppContext+UpdateP+"/[0-9]+[.]do")){
+            DoUpdate(request, response);
+            return;
         }
         super.doPost(request,response);
     }
@@ -138,6 +143,21 @@ public class MeggaController extends HttpServlet
         }
         new OffreServise().Forward_Delete(get_ID_fromRequestURI(request.getRequestURI()),user);
         response.sendRedirect(AppContext+Offers);
+    }
+    private void DoUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        User user= new LoginProc().VerifieAuthed(request,response);
+        if (user==null) {
+            response.sendRedirect(AppContext+LoginT);
+            return;
+        }
+        String description = request.getParameter("description");
+        String profile = request.getParameter("profile");
+        String type = request.getParameter("type");
+       if( new OffreServise().Forward_update( get_ID_fromRequestURI(request.getRequestURI()),profile,description,type,user)){
+           response.sendRedirect(AppContext+Offers);
+       }
+       response.sendRedirect(AppContext+LoginT);
     }
     private int get_ID_fromRequestURI(String string){
         Matcher matcher = Pattern.compile("[0-9]+").matcher(string);

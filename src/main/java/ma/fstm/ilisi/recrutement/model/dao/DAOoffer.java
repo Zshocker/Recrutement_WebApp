@@ -52,14 +52,11 @@ public class DAOoffer implements IDAO<Offer>
 
     @Override
     public void update(Offer ofr) {
-        Offer offer=findByid(ofr.getId());
         Session session= FabricSession.getSessionFactory().getCurrentSession();
         Transaction tx=session.beginTransaction();
         try
         {
-            offer.setDescription(ofr.getDescription());
-            offer.setProfile(ofr.getProfile());
-            offer.setType(ofr.getType());
+            session.update(ofr);
             tx.commit();
         }catch (HibernateException e)
         {
@@ -71,7 +68,6 @@ public class DAOoffer implements IDAO<Offer>
     @Override
     public boolean delete(Offer ofr)
     {
-        ofr=findByid(ofr.getId());
         Session session= FabricSession.getSessionFactory().getCurrentSession();
         Transaction tx=session.beginTransaction();
         try

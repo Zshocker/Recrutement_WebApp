@@ -22,7 +22,9 @@
 
                     <div class="form-group">
                         <label class="control-label" >Description:</label>
-                        <input type="text" class="form-control" name="description" value="John" />
+                        <textarea  class="text-area" name="description" value="John" >
+
+                        </textarea>
 
                     </div>
                     <div class="form-group">

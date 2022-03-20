@@ -29,8 +29,9 @@
 
                     <div class="form-group">
                         <label class="control-label" >Description:</label>
-                        <input type="text" class="form-control"  name="description" value="${requestScope.offer.description}" />
-
+                        <textarea  class="text-area" name="description"  >
+                            ${requestScope.offer.description}
+                        </textarea>
                     </div>
                     <div class="form-group">
                         <label class="control-label" >Profile:</label>
@@ -43,7 +44,7 @@
                         <label for="cdi">CDI</label><br>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <input type="submit" value="Update" class="btn btn-primary" />
                     </div>
                 </form>
             </div>

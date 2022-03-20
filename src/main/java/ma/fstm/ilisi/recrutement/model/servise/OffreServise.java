@@ -18,16 +18,26 @@ public class OffreServise
     }
     public boolean Forward_Delete(int id,User user)
     {
-        Offer offer=new Offer();
-        offer.setId(id);
-        if(!DAOoffer.getInstance().delete(offer))return false;
-        user.getOffers().remove(offer);
-        return true;
+        try {
+            Offer offer=user.getOffers().stream().filter(offer1 -> offer1.getId()==id).findFirst().get();
+            if(!DAOoffer.getInstance().delete(offer))return false;
+            user.getOffers().remove(offer);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
-    public boolean Forward_update(int id,String profile,String description,String contratType){
+    public boolean Forward_update(int id,String profile,String description,String contratType,User user){
         if(profile.equals("")||description.equals("")||contratType.equals(""))return false;
-        Offer o = new Offer(id,description,profile,new ContratType(contratType));
-         DAOoffer.getInstance().update(o);
+        try {
+        Offer offer=user.getOffers().stream().filter(offer1 -> offer1.getId()==id).findFirst().get();
+        offer.setDescription(description);
+        offer.setProfile(profile);
+        offer.setType(new ContratType(contratType));
+         DAOoffer.getInstance().update(offer);
+        }catch (Exception e){
+            return false;
+        }
         return true;
     }
 
