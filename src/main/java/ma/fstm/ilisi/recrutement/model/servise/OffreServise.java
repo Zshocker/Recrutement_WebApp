@@ -17,5 +17,11 @@ public class OffreServise
         offer.setId(id);
         return DAOoffer.getInstance().delete(offer);
     }
+    public boolean Forward_update(int id,String profile,String description,String contratType){
+        if(profile.equals("")||description.equals("")||contratType.equals(""))return false;
+        Offer o = new Offer(id,description,profile,new ContratType(contratType));
+         DAOoffer.getInstance().update(o);
+        return true;
+    }
 
 }

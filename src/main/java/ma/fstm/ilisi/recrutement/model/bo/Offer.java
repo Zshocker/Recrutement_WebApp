@@ -47,10 +47,11 @@ public class Offer
         this.profile = profile;
     }
 
-    public Offer(int id, String description, String prof) {
+    public Offer(int id, String description, String prof, ContratType type) {
         this.id=id;
         this.description = description;
         profile = prof;
+        this.type=type;
     }
 
     public Offer(String description, String profile, ContratType type) {

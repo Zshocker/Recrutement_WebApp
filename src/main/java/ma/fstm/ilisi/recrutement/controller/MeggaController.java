@@ -91,7 +91,7 @@ public class MeggaController extends HttpServlet
     }
     private void DoCreateOffre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-
+         String description = request.getParameter("login");
     }
 }
 
