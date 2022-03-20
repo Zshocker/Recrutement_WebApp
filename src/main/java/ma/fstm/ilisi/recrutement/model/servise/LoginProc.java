@@ -1,5 +1,6 @@
 package ma.fstm.ilisi.recrutement.model.servise;
 
+import ma.fstm.ilisi.recrutement.controller.MeggaController;
 import ma.fstm.ilisi.recrutement.model.bo.User;
 import ma.fstm.ilisi.recrutement.model.dao.DAOUser;
 
@@ -33,8 +34,18 @@ public class LoginProc
             User user=(User) se.getAttribute("user");
             if(user!=null)return  user;
         }
-        response.sendRedirect(request.getContextPath()+ "/Login");
+        response.sendRedirect(MeggaController.AppContext + MeggaController.LoginT);
         return null;
 
+    }
+    public boolean verifieAuth(HttpServletRequest request)
+    {
+        HttpSession se=request.getSession(false);
+        if(se!=null)
+        {
+            User user=(User) se.getAttribute("user");
+            if(user!=null)return true;
+        }
+        return false;
     }
 }

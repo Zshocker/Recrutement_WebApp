@@ -1,5 +1,6 @@
 package ma.fstm.ilisi.recrutement.controller;
 
+import ma.fstm.ilisi.recrutement.model.bo.User;
 import ma.fstm.ilisi.recrutement.model.servise.LoginProc;
 
 import javax.servlet.*;
@@ -8,13 +9,13 @@ import java.io.IOException;
 
 public class MeggaController extends HttpServlet
 {
-    private static String AppContext="/demo1-1.0-SNAPSHOT";
-    private static String LoginT="/login.do";
-    private static String LogoutT="/logout.do";
-    private static String Offers="/Admin/Offers.do";
-    private static String CreateP="/Admin/Offers/Create.do";
-    private static String DeleteP="/Admin/Offers/Delete.do";
-    private static String UpdateP="/Admin/Offers/Update.do";
+    public static String AppContext="/demo1-1.0-SNAPSHOT";
+    public static String LoginT="/login.do";
+    public static String LogoutT="/logout.do";
+    public static String Offers="/Admin/Offers.do";
+    public static String CreateP="/Admin/Offers/Create.do";
+    public static String DeleteP="/Admin/Offers/Delete.do";
+    public static String UpdateP="/Admin/Offers/Update.do";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
@@ -33,6 +34,9 @@ public class MeggaController extends HttpServlet
         {
             DoLogout(request,response);
             return;
+        }
+        if(suf.equals(AppContext+Offers)){
+            GetOffersAdmin(request,response);
         }
         response.setStatus(404);
         response.getWriter().println("<h1>404: NOT FOUND</h1>");
@@ -59,7 +63,13 @@ public class MeggaController extends HttpServlet
     }
 
 
-
+    private void GetOffersAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        User user= new LoginProc().VerifieAuthed(request,response);
+        if (user != null) {
+            request.getRequestDispatcher( "/Resources/JSP/AllOffersAdminPage.jsp").forward(request,response);
+        }
+    }
 
 
     private void doLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -67,7 +77,7 @@ public class MeggaController extends HttpServlet
         String pass=request.getParameter("pass");
         if(new LoginProc().Authentificate(request,log,pass))
         {
-            response.sendRedirect(request.getContextPath() +"/");
+            response.sendRedirect(AppContext+Offers);
         }else response.sendRedirect(AppContext+LoginT);
     }
     private void GetLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -77,7 +87,7 @@ public class MeggaController extends HttpServlet
     private void DoLogout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         new LoginProc().Logout(request);
-        response.sendRedirect(request.getContextPath() + "/login.do");
+        response.sendRedirect(AppContext+LoginT);
     }
     private void DoCreateOffre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {

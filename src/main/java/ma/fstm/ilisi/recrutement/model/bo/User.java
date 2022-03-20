@@ -14,16 +14,16 @@ public class User implements Serializable {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private int id;
-    private Date datecreated;
+    private Date dateCreated;
     private String name, login, passhash, email;
 
     public User()
     {
     }
 
-    public User(int id, Date datecreated, String name, String login, String passhash, String email) {
+    public User(int id, Date dateCreated, String name, String login, String passhash, String email) {
         this.id = id;
-        this.datecreated = datecreated;
+        this.dateCreated = dateCreated;
         this.name = name;
         this.login = login;
         this.passhash = passhash;
@@ -38,12 +38,12 @@ public class User implements Serializable {
         this.id = _id;
     }
 
-    public Date getDatecreated() {
-        return datecreated;
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
-    public void setDatecreated(Date _dateCreated) {
-        this.datecreated = _dateCreated;
+    public void setDateCreated(Date _dateCreated) {
+        this.dateCreated = _dateCreated;
     }
 
     public String getName() {

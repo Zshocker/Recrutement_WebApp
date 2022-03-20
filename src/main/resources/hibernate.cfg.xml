@@ -10,5 +10,7 @@
         <property name="current_session_context_class">thread</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <mapping class="ma.fstm.ilisi.recrutement.model.bo.User"/>
+        <mapping class="ma.fstm.ilisi.recrutement.model.bo.Offer"/>
+        <mapping class="ma.fstm.ilisi.recrutement.model.bo.ContratType"/>
     </session-factory>
 </hibernate-configuration>

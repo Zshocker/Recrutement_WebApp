@@ -5,24 +5,16 @@ import ma.fstm.ilisi.recrutement.model.dao.hib.FabricSession;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 public class DAOUser implements IDAO<User>{
     private static DAOUser daoUser=null;
     public static DAOUser getDAOUser(){
        if(daoUser==null)daoUser=new DAOUser();
-       return  daoUser;
+       return daoUser;
     }
-    private DAOUser(){
-
-    }
+    private DAOUser(){}
     @Override
     public boolean Create(User user)
     {
@@ -45,7 +37,7 @@ public class DAOUser implements IDAO<User>{
         Transaction tx=session.beginTransaction();
         List<User> users;
         try {
-            users=session.createQuery("from User ").list();
+            users=session.createQuery("from User").list();
             tx.commit();
             return users;
         } catch (HibernateException e) {
@@ -89,8 +81,11 @@ public class DAOUser implements IDAO<User>{
         User user=null;
         try
         {
-            return (User) session.createQuery("from User user where user.login="+login+" and user.passhash="+passHashe).list().get(0);
+            user= (User) session.createQuery("from User user where user.login=?1 and user.passhash=?2").setParameter(1,login).setParameter(2,passHashe).list().get(0);
+            session.getTransaction().commit();
+            return user;
         } catch (Exception e) {
+            session.getTransaction().rollback();
             System.err.println(e);
             return null;
         }
