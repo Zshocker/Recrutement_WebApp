@@ -24,18 +24,20 @@
                     <thead>
                     <th>id</th>
                     <th>Profile</th>
-                    <th></th>
-                    <th>qte in Stock</th>
-                    <th>Add to cart</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Delete</th>
+                    <th>Update</th>
                     </thead>
                     <tbody>
-                    <c:forEach items="${requestScope.Livres}" var="livre">
+                    <c:forEach items="${requestScope.offers}" var="offer">
                         <tr>
-                            <td>${livre.isbn}</td>
-                            <td>${livre.name}</td>
-                            <td>${livre.prix} DH</td>
-                            <td>${livre.qte}</td>
-                            <td> <input type="checkbox" name="livres[]" value="${livre.id}"/></td>
+                            <td>${offer.id}</td>
+                            <td>${offer.profile}</td>
+                            <td>${offer.description}</td>
+                            <td>${offer.type}</td>
+                            <td><a href="<%=MeggaController.DeleteP%>/${offer.id}">delete</a></td>
+                            <td><a href="<%=MeggaController.UpdateP%>/${offer.id}">delete</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
