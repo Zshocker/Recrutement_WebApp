@@ -14,9 +14,19 @@ public class Offer
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "type")
     private ContratType type;
-
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "creator")
+    private User creator;
     public ContratType getType() {
         return type;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
     public void setType(ContratType type) {
@@ -54,10 +64,11 @@ public class Offer
         this.type=type;
     }
 
-    public Offer(String description, String profile, ContratType type) {
+    public Offer(String description, String profile, ContratType type,User user) {
         this.description = description;
         this.profile = profile;
         this.type = type;
+        this.creator=user;
     }
 
     public Offer()

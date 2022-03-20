@@ -7,7 +7,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
+
 @Entity
 @Table(name="users")
 public class User implements Serializable {
@@ -16,7 +19,8 @@ public class User implements Serializable {
     private int id;
     private Date dateCreated;
     private String name, login, passhash, email;
-
+    @OneToMany(fetch = FetchType.EAGER , mappedBy = "creator")
+    private Set<Offer> offers=new HashSet<>();
     public User()
     {
     }
@@ -28,6 +32,15 @@ public class User implements Serializable {
         this.login = login;
         this.passhash = passhash;
         this.email = email;
+    }
+
+    public Set<Offer> getOffers()
+    {
+        return offers;
+    }
+
+    public void setOffers(Set<Offer> offers) {
+        this.offers = offers;
     }
 
     public int getId() {

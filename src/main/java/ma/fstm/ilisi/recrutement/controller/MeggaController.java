@@ -83,10 +83,11 @@ public class MeggaController extends HttpServlet
 
     private void GetOffersAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        User user= new LoginProc().VerifieAuthed(request,response);
-        if (user != null) {
-            getServletContext().getRequestDispatcher( "/Resources/JSP/AllOffersAdminPage.jsp").forward(request,response);
+        if (!new LoginProc().verifieAuth(request)) {
+            response.sendRedirect(AppContext+LoginT);
+            return;
         }
+        getServletContext().getRequestDispatcher( "/Resources/JSP/AllOffersAdminPage.jsp").forward(request,response);
     }
 
 
@@ -115,17 +116,28 @@ public class MeggaController extends HttpServlet
 
     private void DoCreateOffre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+        User user= new LoginProc().VerifieAuthed(request,response);
+        if (user==null) {
+            response.sendRedirect(AppContext+LoginT);
+            return;
+        }
          String description = request.getParameter("description");
          String profile = request.getParameter("profile");
          String type = request.getParameter("type");
-         if(new OffreServise().Forward_Create(profile,description,type)){
+         if(new OffreServise().Forward_Create(profile,description,type,user)){
              response.sendRedirect(AppContext+Offers);
          }else System.out.println("<h2>Wrong<h2>");
 
     }
     private void doDeleteOffre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        new OffreServise().Forward_Delete(get_ID_fromRequestURI(request.getRequestURI()));
+        User user= new LoginProc().VerifieAuthed(request,response);
+        if (user==null) {
+            response.sendRedirect(AppContext+LoginT);
+            return;
+        }
+        new OffreServise().Forward_Delete(get_ID_fromRequestURI(request.getRequestURI()),user);
+        response.sendRedirect(AppContext+Offers);
     }
     private int get_ID_fromRequestURI(String string){
         Matcher matcher = Pattern.compile("[0-9]+").matcher(string);

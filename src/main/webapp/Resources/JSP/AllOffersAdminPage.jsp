@@ -1,11 +1,11 @@
 <%@ page import="java.util.List" %>
-<%@ page import="ma.fstm.ilisi.recrutement.model.dao.DAOoffer" %>
 <%@ page import="ma.fstm.ilisi.recrutement.controller.MeggaController" %>
+<%@ page import="ma.fstm.ilisi.recrutement.model.servise.LoginProc" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-    DAOoffer daOoffer=DAOoffer.getInstance();
-    request.setAttribute("offers",daOoffer.Retrieve());
+    LoginProc service=new LoginProc();
+    request.setAttribute("offers",service.VerifieAuthed(request,response).getOffers());
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,8 +42,7 @@
                     </c:forEach>
                     </tbody>
                 </table>
-                    <input type="submit" value="Add to cart" class="btn btn-primary" />
-                </form>
+
             </div>
         </main>
     </div>
