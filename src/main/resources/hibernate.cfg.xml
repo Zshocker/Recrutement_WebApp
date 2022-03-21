@@ -4,13 +4,13 @@
     <session-factory >
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.url">jdbc:postgresql://localhost:5432/db_shuf</property>
-        <property name="connection.username">hp</property>
-        <property name="connection.password">123</property>
         <property name="connection.pool_size">23</property>
         <property name="current_session_context_class">thread</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <mapping class="ma.fstm.ilisi.recrutement.model.bo.User"/>
         <mapping class="ma.fstm.ilisi.recrutement.model.bo.Offer"/>
         <mapping class="ma.fstm.ilisi.recrutement.model.bo.ContratType"/>
+
+        <mapping class="ma.fstm.ilisi.recrutement.model.bo.Postulation"/>
     </session-factory>
 </hibernate-configuration>

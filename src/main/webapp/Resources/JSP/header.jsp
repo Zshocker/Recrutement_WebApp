@@ -11,16 +11,23 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="<%=MeggaController.AppContext+MeggaController.Offers%>" >Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="<%=MeggaController.AppContext+MeggaController.CreateP%>">Create an Offer</a>
+                        <a class="nav-link text-dark" href="<%=MeggaController.AppContext+MeggaController.OffersU%>" >Home</a>
                     </li>
                     <% if(new LoginProc().verifieAuth(request)){ %>
                     <li class="nav-item">
+                        <a class="nav-link text-dark" href="<%=MeggaController.AppContext+MeggaController.CreateP%>">Create an Offer</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link text-dark" href="<%=MeggaController.AppContext+MeggaController.LogoutT%>" >Logout</a>
                     </li>
-                    <% } %>
+                    <% }else{ %>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="<%=MeggaController.AppContext+MeggaController.LoginT%>" >Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="<%=MeggaController.AppContext+MeggaController.Inscrip%>" >Inscription</a>
+                    </li>
+                    <%}%>
                 </ul>
             </div>
         </div>

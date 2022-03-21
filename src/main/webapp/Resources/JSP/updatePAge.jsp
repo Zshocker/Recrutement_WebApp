@@ -22,14 +22,14 @@
 <jsp:include page="header.jsp"/>
 <div class="container">
     <main role="main" class="pb-3">
-
+        PostgreSQL - DB_SMARTWALK@localhost
         <div class="row">
             <div class="col-md-4">
                 <form method="post">
 
                     <div class="form-group">
                         <label class="control-label" >Description:</label>
-                        <textarea  class="text-area" name="description"  >
+                        <textarea  class="form-control" name="description"  >
                             ${requestScope.offer.description}
                         </textarea>
                     </div>

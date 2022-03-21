@@ -1,6 +1,7 @@
 package ma.fstm.ilisi.recrutement.controller;
 
 import ma.fstm.ilisi.recrutement.model.bo.User;
+import ma.fstm.ilisi.recrutement.model.dao.DAOoffer;
 import ma.fstm.ilisi.recrutement.model.servise.LoginProc;
 import ma.fstm.ilisi.recrutement.model.servise.OffreServise;
 
@@ -21,6 +22,8 @@ public class MeggaController extends HttpServlet
     public static String CreateP="/Admin/Offers/Create.do";
     public static String DeleteP="/Admin/Offers/Delete";
     public static String UpdateP="/Admin/Offers/Update";
+    public static String OffersU="/Offers.do";
+    public static String Inscrip="/Inscription.do";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
@@ -48,12 +51,23 @@ public class MeggaController extends HttpServlet
             GetCreateP(request, response);
             return;
         }
-        if(suf.matches(AppContext+DeleteP+"/[0-9]+[.]do")){
+        if(suf.matches(AppContext+DeleteP+"/[0-9]+[.]do"))
+        {
             doDeleteOffre(request,response);
             return;
         }
-        if(suf.matches(AppContext+UpdateP+"/[0-9]+[.]do")){
+        if(suf.matches(AppContext+UpdateP+"/[0-9]+[.]do"))
+        {
             getUpdate(request,response);
+            return;
+        }
+        if(suf.equals(AppContext+OffersU)){
+            if(new LoginProc().verifieAuth(request))GetOffersAdmin(request, response);
+            else GetOffers(request,response);
+        }
+        if (suf.equals(AppContext+Inscrip)){
+            GetInscription(request,response);
+            return;
         }
         response.setStatus(404);
         response.getWriter().println("<h1>404: NOT FOUND</h1>");
@@ -82,6 +96,11 @@ public class MeggaController extends HttpServlet
             DoUpdate(request, response);
             return;
         }
+        if(suf.equals(AppContext+Inscrip))
+        {
+            DoInscription(request,response);
+            return;
+        }
         super.doPost(request,response);
     }
 
@@ -92,7 +111,19 @@ public class MeggaController extends HttpServlet
             response.sendRedirect(AppContext+LoginT);
             return;
         }
+        LoginProc service=new LoginProc();
+        request.setAttribute("offers",service.VerifieAuthed(request,response).getOffers());
         getServletContext().getRequestDispatcher( "/Resources/JSP/AllOffersAdminPage.jsp").forward(request,response);
+    }
+    private void GetOffers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        request.setAttribute("offers", DAOoffer.getInstance().Retrieve());
+        getServletContext().getRequestDispatcher( "/Resources/JSP/AllOffersPage.jsp").forward(request,response);
+    }
+    private void GetInscription(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+
+        getServletContext().getRequestDispatcher( "/Resources/JSP/InscriptionPage.jsp").forward(request,response);
     }
 
 
@@ -115,6 +146,10 @@ public class MeggaController extends HttpServlet
     }
     private void GetCreateP(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+        if(!new LoginProc().verifieAuth(request)){ response.sendRedirect(AppContext+LoginT);
+        return;
+        }
+
         getServletContext().getRequestDispatcher( "/Resources/JSP/creation.jsp").forward(request, response);
     }
 
@@ -131,7 +166,19 @@ public class MeggaController extends HttpServlet
          String type = request.getParameter("type");
          if(new OffreServise().Forward_Create(profile,description,type,user)){
              response.sendRedirect(AppContext+Offers);
-         }else System.out.println("<h2>Wrong<h2>");
+         }else  response.sendRedirect(AppContext+CreateP);
+
+    }
+    private void DoInscription(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+
+        String name = request.getParameter("name");
+        String login = request.getParameter("login");
+        String pass = request.getParameter("pass");
+        String email = request.getParameter("email");
+        if(new LoginProc().Inscription(request,login,pass,email,name)){
+            response.sendRedirect(AppContext+OffersU);
+        }else response.sendRedirect(AppContext+Inscrip);
 
     }
     private void doDeleteOffre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

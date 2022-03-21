@@ -22,17 +22,15 @@
 
                     <div class="form-group">
                         <label class="control-label" >Description:</label>
-                        <textarea  class="text-area" name="description" value="John" >
+                        <textarea  class="form-control" name="description" >
 
                         </textarea>
 
                     </div>
                     <div class="form-group">
                         <label class="control-label" >Profile:</label>
-                        <input type="text" class="form-control" name="profile" value="Profile" />
-
+                        <input type="text" class="form-control" name="profile" placeholder="Profile" />
                     </div>
-
                     <div class="form-group">
                         <input type="radio" id="cdd" name="type" value="cdd">
                         <label for="cdd">CDD</label><br>

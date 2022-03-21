@@ -1,7 +1,12 @@
 package ma.fstm.ilisi.recrutement.model.bo;
 
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
 @Entity
 @Table(name = "offers")
 public class Offer
@@ -17,6 +22,19 @@ public class Offer
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "creator")
     private User creator;
+    @OneToMany(mappedBy = "offer" ,fetch = FetchType.LAZY)
+    Set<Postulation> postulations=new HashSet<>();
+
+    public Set<Postulation> getPostulations() {
+        if(!Hibernate.isInitialized(postulations))
+        Hibernate.initialize(postulations);
+        return postulations;
+    }
+
+    public void setPostulations(Set<Postulation> postulations) {
+        this.postulations = postulations;
+    }
+
     public ContratType getType() {
         return type;
     }

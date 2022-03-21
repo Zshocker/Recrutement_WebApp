@@ -23,6 +23,18 @@ public class LoginProc
         }
         return false;
     }
+    public boolean Authentificate(HttpServletRequest request,User user )
+    {
+
+
+
+        if(user!=null){
+            HttpSession session=request.getSession(true);
+            session.setAttribute("user",user);
+            return true;
+        }
+        return false;
+    }
     public void Logout(HttpServletRequest request){
         HttpSession session= request.getSession(false);
         if(session!=null)session.invalidate();
@@ -47,5 +59,17 @@ public class LoginProc
             if(user!=null)return true;
         }
         return false;
+    }
+    public boolean Inscription(HttpServletRequest request,String login,String password,String email,String name)
+    {
+        boolean bool;
+        if(login.equals("")||password.equals("")||email.equals("")|| name.equals(""))return false;
+        User user=new User(name,login,User.HashPass(password,"MD5"),email);
+        bool= DAOUser.getDAOUser().Create(user);
+    if(bool){
+        Authentificate(request,user);
+        return true;
+    }
+    return false;
     }
 }

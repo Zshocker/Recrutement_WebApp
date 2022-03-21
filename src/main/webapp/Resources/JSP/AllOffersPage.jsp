@@ -19,22 +19,18 @@
             <div class="col-md-9">
                 <table class="table table-hover table-bordered">
                     <thead>
-                    <th>id</th>
                     <th>Profile</th>
                     <th>Description</th>
                     <th>Type</th>
-                    <th>Delete</th>
-                    <th>Update</th>
+                    <th>Postuler</th>
                     </thead>
                     <tbody>
                     <c:forEach items="${requestScope.offers}" var="offer">
                         <tr>
-                            <td>${offer.id}</td>
                             <td>${offer.profile}</td>
                             <td>${offer.description}</td>
                             <td>${offer.type.type}</td>
-                            <td><a href="<%=MeggaController.AppContext+MeggaController.DeleteP%>/${offer.id}.do">Delete</a></td>
-                            <td><a href="<%=MeggaController.AppContext+MeggaController.UpdateP%>/${offer.id}.do">Update</a></td>
+                            <td><a>Postuler</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>

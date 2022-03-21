@@ -33,6 +33,13 @@ public class User implements Serializable {
         this.passhash = passhash;
         this.email = email;
     }
+    public User(String name, String login, String passhash, String email) {
+        this.name = name;
+        dateCreated=new Date();
+        this.login = login;
+        this.passhash = passhash;
+        this.email = email;
+    }
 
     public Set<Offer> getOffers()
     {
