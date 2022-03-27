@@ -1,7 +1,7 @@
 package ma.fstm.ilisi.recrutement.model.bo;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -17,7 +17,7 @@ public class Postulation {
     private String cv;
     private String lettre;
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "offer")
+    @JoinColumn(name = "offer")
     private Offer offer;
 
     public int getId() {

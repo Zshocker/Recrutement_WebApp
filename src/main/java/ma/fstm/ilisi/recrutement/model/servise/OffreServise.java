@@ -41,4 +41,7 @@ public class OffreServise
         return true;
     }
 
+    public Offer get(int id) {
+        return DAOoffer.getInstance().findByid(id);
+    }
 }

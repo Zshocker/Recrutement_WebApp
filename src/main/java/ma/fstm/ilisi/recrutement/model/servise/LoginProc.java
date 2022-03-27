@@ -25,9 +25,6 @@ public class LoginProc
     }
     public boolean Authentificate(HttpServletRequest request,User user )
     {
-
-
-
         if(user!=null){
             HttpSession session=request.getSession(true);
             session.setAttribute("user",user);

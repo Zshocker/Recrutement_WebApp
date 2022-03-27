@@ -30,7 +30,7 @@
                             <td>${offer.profile}</td>
                             <td>${offer.description}</td>
                             <td>${offer.type.type}</td>
-                            <td><a>Postuler</a></td>
+                            <td><a href="<%=MeggaController.AppContext+MeggaController.Postulate%>/${offer.id}.do">Postuler</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>

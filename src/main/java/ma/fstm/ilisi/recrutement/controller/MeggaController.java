@@ -4,6 +4,7 @@ import ma.fstm.ilisi.recrutement.model.bo.User;
 import ma.fstm.ilisi.recrutement.model.dao.DAOoffer;
 import ma.fstm.ilisi.recrutement.model.servise.LoginProc;
 import ma.fstm.ilisi.recrutement.model.servise.OffreServise;
+import ma.fstm.ilisi.recrutement.model.servise.PostulationServise;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -24,6 +25,7 @@ public class MeggaController extends HttpServlet
     public static String UpdateP="/Admin/Offers/Update";
     public static String OffersU="/Offers.do";
     public static String Inscrip="/Inscription.do";
+    public static String Postulate="/Offers/Postulate";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
@@ -69,9 +71,16 @@ public class MeggaController extends HttpServlet
             GetInscription(request,response);
             return;
         }
+        if(suf.matches(AppContext+Postulate+"/[0-9]+[.]do"))
+        {
+            getPostulatePage(request,response);
+            return;
+        }
         response.setStatus(404);
         response.getWriter().println("<h1>404: NOT FOUND</h1>");
     }
+
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -101,9 +110,32 @@ public class MeggaController extends HttpServlet
             DoInscription(request,response);
             return;
         }
+        if(suf.matches(AppContext+Postulate+"/[0-9]+[.]do"))
+        {
+            doPostulate(request,response);
+            return;
+        }
         super.doPost(request,response);
     }
 
+    private void doPostulate(HttpServletRequest request, HttpServletResponse response)throws IOException, ServletException
+    {
+        int id=get_ID_fromRequestURI(request.getRequestURI());
+        String nom=request.getParameter("nom");
+        String prenom=request.getParameter("prenom");
+        String email=request.getParameter("email");
+        Part cv=request.getPart("cv");
+        Part letter=request.getPart("letter");
+        if(new PostulationServise().Forward_Create(nom,prenom,email,cv,letter,id))
+        {
+            response.sendRedirect(AppContext+Offers);
+        }else response.sendRedirect(AppContext+Postulate+"/"+id+".do");
+    }
+
+    private void getPostulatePage(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
+    {
+        getServletContext().getRequestDispatcher( "/Resources/JSP/PostulatePage.jsp").forward(request, response);
+    }
 
     private void GetOffersAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
@@ -122,7 +154,6 @@ public class MeggaController extends HttpServlet
     }
     private void GetInscription(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-
         getServletContext().getRequestDispatcher( "/Resources/JSP/InscriptionPage.jsp").forward(request,response);
     }
 
