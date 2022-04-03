@@ -40,8 +40,10 @@ public class OffreServise
         }
         return true;
     }
-
     public Offer get(int id) {
-        return DAOoffer.getInstance().findByid(id);
+        return DAOoffer.getInstance().findById(id);
+    }
+    public Offer getWithPost(int id) {
+        return DAOoffer.getInstance().findByIdLoadPost(id);
     }
 }

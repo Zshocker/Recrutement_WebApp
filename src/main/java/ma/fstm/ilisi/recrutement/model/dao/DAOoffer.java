@@ -82,13 +82,29 @@ public class DAOoffer implements IDAO<Offer>
             return false;
         }
     }
-    public Offer findByid(int id)
+    public Offer findById(int id)
     {
         Session session= FabricSession.getSessionFactory().getCurrentSession();
         Transaction tx=session.beginTransaction();
         try
         {
             Offer offer= session.get(Offer.class,id);
+            tx.commit();
+            return offer;
+        }catch (HibernateException e){
+            tx.rollback();
+            System.out.println(e);
+            return null;
+        }
+    }
+    public Offer findByIdLoadPost(int id)
+    {
+        Session session= FabricSession.getSessionFactory().getCurrentSession();
+        Transaction tx=session.beginTransaction();
+        try
+        {
+            Offer offer= session.get(Offer.class,id);
+            offer.getPostulations();
             tx.commit();
             return offer;
         }catch (HibernateException e){

@@ -4,12 +4,6 @@
 <%@ page import="ma.fstm.ilisi.recrutement.model.bo.Offer" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-    DAOoffer daOoffer=DAOoffer.getInstance();
-    int id = (int) request.getAttribute("id");
-    Offer of=daOoffer.findByid(id);
-    request.setAttribute("offer",of);
-%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,25 +16,23 @@
 <jsp:include page="header.jsp"/>
 <div class="container">
     <main role="main" class="pb-3">
-        PostgreSQL - DB_SMARTWALK@localhost
         <div class="row">
             <div class="col-md-4">
                 <form method="post">
-
                     <div class="form-group">
                         <label class="control-label" >Description:</label>
                         <textarea  class="form-control" name="description"  >
-                            ${requestScope.offer.description}
+                            ${offer.description}
                         </textarea>
                     </div>
                     <div class="form-group">
                         <label class="control-label" >Profile:</label>
-                        <input type="text" class="form-control" name="profile" value="${requestScope.offer.profile}" />
+                        <input type="text" class="form-control" name="profile" value="${offer.profile}" />
                     </div>
                     <div class="form-group">
-                        <input type="radio" id="cdd" name="type" value="cdd" <% if(of.getType().toString().equals("cdd")){ %> checked <%}%> >
+                        <input type="radio" id="cdd" name="type" value="cdd" <c:if test="${offer.type.type=='cdd'}"> checked </c:if> >
                         <label for="cdd">CDD</label><br>
-                        <input type="radio" id="cdi" name="type" value="cdi"  <% if(of.getType().toString().equals("cdi")){ %> checked <%}%> >
+                        <input type="radio" id="cdi" name="type" value="cdi"  <c:if test="${offer.type.type=='cdi'}"> checked </c:if> >
                         <label for="cdi">CDI</label><br>
                     </div>
                     <div class="form-group">

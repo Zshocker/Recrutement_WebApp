@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.xml.bind.DatatypeConverter;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
@@ -102,13 +103,10 @@ public class User implements Serializable {
     {
         try {
             MessageDigest md=MessageDigest.getInstance(Algo);
-            byte[] digest=md.digest(pass.getBytes("UTF-8"));
+            byte[] digest=md.digest(pass.getBytes(StandardCharsets.UTF_8));
             return DatatypeConverter.printHexBinary(digest).toLowerCase(Locale.ROOT);
         } catch (NoSuchAlgorithmException e) {
              System.err.println(e);
-            return null;
-        } catch (UnsupportedEncodingException e) {
-            System.err.println(e);
             return null;
         }
 

@@ -3,6 +3,7 @@ package ma.fstm.ilisi.recrutement.model.bo;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -22,9 +23,9 @@ public class Offer
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "creator")
     private User creator;
-    @OneToMany(mappedBy = "offer" ,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "offer" ,fetch = FetchType.LAZY)
     Set<Postulation> postulations=new HashSet<>();
-
+    @Transactional
     public Set<Postulation> getPostulations() {
         if(!Hibernate.isInitialized(postulations))
         Hibernate.initialize(postulations);

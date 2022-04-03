@@ -1,5 +1,7 @@
 package ma.fstm.ilisi.recrutement.controller;
 
+import ma.fstm.ilisi.recrutement.model.bo.Offer;
+import ma.fstm.ilisi.recrutement.model.bo.Postulation;
 import ma.fstm.ilisi.recrutement.model.bo.User;
 import ma.fstm.ilisi.recrutement.model.dao.DAOoffer;
 import ma.fstm.ilisi.recrutement.model.servise.LoginProc;
@@ -11,6 +13,7 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,7 +37,7 @@ public class MeggaController extends HttpServlet
         String suf=request.getRequestURI();
         if(suf.equals(AppContext+"/"))
         {
-            response.sendRedirect(AppContext+LoginT);
+            response.sendRedirect(AppContext+OffersU);
             return;
         }
         if(suf.equals(AppContext+LoginT))
@@ -144,19 +147,15 @@ public class MeggaController extends HttpServlet
     {
         getServletContext().getRequestDispatcher( "/Resources/JSP/PostulatePage.jsp").forward(request, response);
     }
-    private void getoffersDetailPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
-        if (new LoginProc().verifieAuth(request)) {
-
-           request.setAttribute( "id", get_ID_fromRequestURI(request.getRequestURI()));
-
-           getServletContext().getRequestDispatcher("/Resources/JSP/Detail.jsp").forward(request,response);
-
-           return;
-
-       }
-      //  response.sendRedirect(AppContext+Offers);
-
+    private void getoffersDetailPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!new LoginProc().verifieAuth(request)) {
+            response.sendRedirect(AppContext + LoginT);
+            return;
+        }
+        Offer of=new OffreServise().getWithPost(get_ID_fromRequestURI(request.getRequestURI()));
+        request.setAttribute("posts",of.getPostulations());
+        getServletContext().getRequestDispatcher("/Resources/JSP/Detail.jsp").forward(request, response);
+        return;
     }
 
     private void GetOffersAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -270,7 +269,8 @@ public class MeggaController extends HttpServlet
     }
     private void getUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         if (new LoginProc().verifieAuth(request)) {
-            request.setAttribute( "id", get_ID_fromRequestURI(request.getRequestURI()));
+            Offer of=new OffreServise().get(get_ID_fromRequestURI(request.getRequestURI()));
+            request.setAttribute("offer",of);
             getServletContext().getRequestDispatcher("/Resources/JSP/updatePAge.jsp").forward(request,response);
             return;
         }
