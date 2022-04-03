@@ -36,6 +36,7 @@ public class LoginProc
         HttpSession session= request.getSession(false);
         if(session!=null)session.invalidate();
     }
+
     public User VerifieAuthed(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession se=request.getSession(false);
         if(se!=null)
@@ -45,8 +46,8 @@ public class LoginProc
         }
         response.sendRedirect(MeggaController.AppContext + MeggaController.LoginT);
         return null;
-
     }
+
     public boolean verifieAuth(HttpServletRequest request)
     {
         HttpSession se=request.getSession(false);

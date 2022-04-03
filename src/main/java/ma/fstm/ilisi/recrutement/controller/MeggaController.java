@@ -26,6 +26,8 @@ public class MeggaController extends HttpServlet
     public static String OffersU="/Offers.do";
     public static String Inscrip="/Inscription.do";
     public static String Postulate="/Offers/Postulate";
+    public static String OffersP="/Offers/Details";
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
@@ -76,6 +78,12 @@ public class MeggaController extends HttpServlet
             getPostulatePage(request,response);
             return;
         }
+        if(suf.matches(AppContext+OffersP+"/[0-9]+[.]do"))
+        {
+            getoffersDetailPage(request,response);
+            return;
+        }
+
         response.setStatus(404);
         response.getWriter().println("<h1>404: NOT FOUND</h1>");
     }
@@ -135,6 +143,20 @@ public class MeggaController extends HttpServlet
     private void getPostulatePage(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {
         getServletContext().getRequestDispatcher( "/Resources/JSP/PostulatePage.jsp").forward(request, response);
+    }
+    private void getoffersDetailPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        if (new LoginProc().verifieAuth(request)) {
+
+           request.setAttribute( "id", get_ID_fromRequestURI(request.getRequestURI()));
+
+           getServletContext().getRequestDispatcher("/Resources/JSP/Detail.jsp").forward(request,response);
+
+           return;
+
+       }
+      //  response.sendRedirect(AppContext+Offers);
+
     }
 
     private void GetOffersAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

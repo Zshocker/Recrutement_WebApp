@@ -1,5 +1,6 @@
 package ma.fstm.ilisi.recrutement.model.servise;
 
+import ma.fstm.ilisi.recrutement.controller.MeggaController;
 import ma.fstm.ilisi.recrutement.model.bo.ContratType;
 import ma.fstm.ilisi.recrutement.model.bo.Offer;
 import ma.fstm.ilisi.recrutement.model.bo.Postulation;
@@ -7,6 +8,10 @@ import ma.fstm.ilisi.recrutement.model.bo.User;
 import ma.fstm.ilisi.recrutement.model.dao.DAOPostulation;
 import ma.fstm.ilisi.recrutement.model.dao.DAOoffer;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import java.io.*;
 import java.nio.file.Paths;
@@ -50,4 +55,20 @@ public class PostulationServise
         post.setLettre(cheminLetter);
         return DAOPostulation.getInstance().Create(post);
     }
+    public Postulation detailoffers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        HttpSession se = request.getSession(false);
+
+        if(se!=null)
+        {
+            Postulation postulation=(Postulation) se.getAttribute("postulations");
+            if(postulation!=null) return  postulation;
+        }
+        response.sendRedirect(MeggaController.AppContext + MeggaController.Offers);
+        return null;
+    }
+
+
+
+
 }

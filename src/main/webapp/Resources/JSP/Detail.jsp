@@ -1,9 +1,21 @@
 <%@ page import="java.util.List" %>
 <%@ page import="ma.fstm.ilisi.recrutement.controller.MeggaController" %>
 <%@ page import="ma.fstm.ilisi.recrutement.model.servise.LoginProc" %>
+<%@ page import="ma.fstm.ilisi.recrutement.model.dao.DAOoffer" %>
+<%@ page import="ma.fstm.ilisi.recrutement.model.bo.Offer" %>
+<%@ page import="ma.fstm.ilisi.recrutement.model.bo.Postulation" %>
+<%@ page import="java.util.Set" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
 
+    DAOoffer daOoffer=DAOoffer.getInstance();
+    int id = (int) request.getAttribute("id");
+    Offer of=daOoffer.findByid(id);
+    Set<Postulation> post = of.getPostulations();
+    request.setAttribute("posts",post);
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,18 +37,18 @@
                     <th>Type</th>
                     <th>Delete</th>
                     <th>Update</th>
-                    <th>Postuler</th>
+                    <th>Offers</th>
                     </thead>
                     <tbody>
-                    <c:forEach items="${requestScope.offers}" var="offer">
+                    <c:forEach items="${requestScope.posts}" var="poste">
                         <tr>
-                            <td>${offer.id}</td>
-                            <td>${offer.profile}</td>
-                            <td>${offer.description}</td>
-                            <td>${offer.type.type}</td>
-                            <td><a href="<%=MeggaController.AppContext+MeggaController.DeleteP%>/${offer.id}.do">Delete</a></td>
-                            <td><a href="<%=MeggaController.AppContext+MeggaController.UpdateP%>/${offer.id}.do">Update</a></td>
-                            <td><a href="<%=MeggaController.AppContext+MeggaController.OffersP%>/${offer.id}.do">Detail</a></td>
+                            <td>${poste.id}</td>
+                            <td>${poste.datepost}</td>
+                            <td>${poste.nom}</td>
+                            <td>${poste.prenom}</td>
+                            <td>${poste.nom}</td>
+                             <td>${poste.prenom}</td>
+                            <td><a href="<%=MeggaController.AppContext+MeggaController.Offers%>.do">Delete</a></td>
 
                         </tr>
                     </c:forEach>
