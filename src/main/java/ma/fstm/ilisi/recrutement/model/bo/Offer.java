@@ -22,7 +22,7 @@ public class Offer
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "creator")
     private User creator;
-    @OneToMany(mappedBy = "offer" ,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "offer" ,fetch = FetchType.EAGER)
     Set<Postulation> postulations=new HashSet<>();
 
     public Set<Postulation> getPostulations() {
