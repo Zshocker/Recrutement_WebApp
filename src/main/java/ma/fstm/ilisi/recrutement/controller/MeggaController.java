@@ -30,6 +30,7 @@ public class MeggaController extends HttpServlet
     public static String Inscrip="/Inscription.do";
     public static String Postulate="/Offers/Postulate";
     public static String OffersP="/Offers/Details";
+    public static String Download="/Admin/Download.do";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -86,13 +87,13 @@ public class MeggaController extends HttpServlet
             getoffersDetailPage(request,response);
             return;
         }
-
+        if (suf.matches(AppContext+Download+".*")){
+            GetFile(request,response);
+            return;
+        }
         response.setStatus(404);
         response.getWriter().println("<h1>404: NOT FOUND</h1>");
     }
-
-
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
@@ -127,6 +128,14 @@ public class MeggaController extends HttpServlet
             return;
         }
         super.doPost(request,response);
+    }
+    private void GetFile(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (!new LoginProc().verifieAuth(request)) {
+            response.sendRedirect(AppContext + LoginT);
+            return;
+        }
+        String fileName = request.getParameter("fileName");
+        new PostulationServise().DownloadFile(response,fileName);
     }
 
     private void doPostulate(HttpServletRequest request, HttpServletResponse response)throws IOException, ServletException

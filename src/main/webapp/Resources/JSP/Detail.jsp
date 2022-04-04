@@ -1,3 +1,4 @@
+<%@ page import="ma.fstm.ilisi.recrutement.controller.MeggaController" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -5,7 +6,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Comment</title>
+    <title>Postulations</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 <body>
@@ -29,8 +30,8 @@
                             <td>${poste.nom}</td>
                             <td>${poste.prenom}</td>
                             <td>${poste.datepost}</td>
-                            <td><a href="${poste.cv}">CV</a></td>
-                             <td><a href="${poste.lettre}">Lettre</a></td>
+                            <td><a href="<%=MeggaController.AppContext+MeggaController.Download%>?fileName=${poste.cv}">CV</a></td>
+                             <td><a href="<%=MeggaController.AppContext+MeggaController.Download%>?fileName=${poste.lettre}">Lettre</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>

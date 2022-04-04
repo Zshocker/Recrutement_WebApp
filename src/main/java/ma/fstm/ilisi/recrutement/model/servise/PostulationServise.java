@@ -19,6 +19,7 @@ import java.util.Date;
 
 public class PostulationServise
 {
+    public static final String filesPath="C:/Resources/Documents/";
     private boolean CreateFile(Part part,String che){
         BufferedOutputStream outputStream;
         BufferedInputStream bufferedInputStream;
@@ -47,12 +48,14 @@ public class PostulationServise
         post.setPrenom(prenom);
         post.setDatepost(new Date());
         post.setOffer(new OffreServise().get(id));
-        String cheminCv="C:/Resources/Documents/"+nom+"_"+prenom+"_CV.pdf";
+        String nameCV=nom+"_"+prenom+"_CV.pdf";
+        String cheminCv=filesPath+nameCV;
         if(!CreateFile(cv,cheminCv))return false;
-        post.setCv(cheminCv);
-        String cheminLetter="C:/Resources/Documents/"+nom+"_"+prenom+"_letter.pdf";
+        post.setCv(nameCV);
+        String nameLetter=nom+"_"+prenom+"_letter.pdf";
+        String cheminLetter=filesPath+nameLetter;
         if(!CreateFile(lettre,cheminLetter))return false;
-        post.setLettre(cheminLetter);
+        post.setLettre(nameLetter);
         return DAOPostulation.getInstance().Create(post);
     }
     public Postulation detailoffers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -68,7 +71,39 @@ public class PostulationServise
         return null;
     }
 
-
+    public void DownloadFile(HttpServletResponse response,String fileName) throws IOException {
+        File file = new File(filesPath+fileName);
+        OutputStream outStream = null;
+        FileInputStream inputStream = null;
+        if (file.exists()) {
+            response.setContentType("application/octet-stream");
+            String headerKey = "Content-Disposition";
+            String headerValue = String.format("attachment; filename=\"%s\"", file.getName());
+            response.setHeader(headerKey, headerValue);
+            try {
+                outStream = response.getOutputStream();
+                inputStream = new FileInputStream(file);
+                byte[] buffer = new byte[1024];
+                int bytesRead = -1;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outStream.write(buffer, 0, bytesRead);
+                }
+                outStream.flush();
+            } catch(IOException ioExObj) {
+                System.out.println("Exception While Performing The I/O Operation?= " + ioExObj.getMessage());
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outStream != null) {
+                    outStream.close();
+                }
+            }
+        } else {
+            response.setContentType("text/html");
+            response.getWriter().println("<h3>File "+ fileName +" Is Not Present .....!</h3>");
+        }
+    }
 
 
 }
