@@ -52,10 +52,13 @@ public class PostulationServise
         String cheminCv=filesPath+nameCV;
         if(!CreateFile(cv,cheminCv))return false;
         post.setCv(nameCV);
-        String nameLetter=nom+"_"+prenom+"_letter.pdf";
-        String cheminLetter=filesPath+nameLetter;
-        if(!CreateFile(lettre,cheminLetter))return false;
-        post.setLettre(nameLetter);
+        if(!lettre.getSubmittedFileName().equals(""))
+        {
+            String nameLetter=nom+"_"+prenom+"_letter.pdf";
+            String cheminLetter=filesPath+nameLetter;
+            if(!CreateFile(lettre,cheminLetter))return false;
+            post.setLettre(nameLetter);
+        }
         return DAOPostulation.getInstance().Create(post);
     }
     public Postulation detailoffers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

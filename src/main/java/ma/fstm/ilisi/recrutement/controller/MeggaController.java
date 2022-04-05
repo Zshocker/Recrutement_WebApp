@@ -146,6 +146,7 @@ public class MeggaController extends HttpServlet
         String email=request.getParameter("email");
         Part cv=request.getPart("cv");
         Part letter=request.getPart("letter");
+        String st= letter.getSubmittedFileName();
         if(new PostulationServise().Forward_Create(nom,prenom,email,cv,letter,id))
         {
             response.sendRedirect(AppContext+Offers);
